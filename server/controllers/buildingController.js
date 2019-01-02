@@ -59,7 +59,7 @@ exports.view = function (req, res) {
 
 // Handle update building info
 exports.update = function (req, res) {
-    Building.find({building_id: req.params.building_id}, function (err, building) {
+    Building.findOne({building_id: req.params.building_id}, function (err, building) {
         if (err)
             res.send(err);
         else{
@@ -68,8 +68,14 @@ exports.update = function (req, res) {
             building.latitude = req.body.latitude ? req.body.latitude : building.latitude;
             building.longitude = req.body.longitude ? req.body.longitude : building.longitude;
 
-            // save the building and check for errors
-            building.save(function (err) {
+            Building.findOneAndUpdate({building_id: req.params.building_id}, {
+              $set: {
+                  building_id: building.building_id,
+                  name: building.name,
+                  latitude: building.latitude,
+                  longitude: building.longitude
+              }
+            }, function (err) {
                 if (err)
                     res.json(err);
 
