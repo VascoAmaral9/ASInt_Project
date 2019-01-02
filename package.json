@@ -1,0 +1,26 @@
+{
+  "name": "project_asint",
+  "version": "1.0.0",
+  "description": "ASInt Project for 1st Semester 2018/2019 in IST",
+  "scripts": {
+    "start": "node --inspect=0.0.0.0:9229 ./bin/www",
+    "dev": "cross-env NODE_ENV=development nodemon "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:VascoAmaral9/ASInt_Project.git"
+  },
+  "author": "Vasco Amaral, José Bastos",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^2.0.3",
+    "cross-env": "^5.2.0",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.1",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7"
+  }
+}
