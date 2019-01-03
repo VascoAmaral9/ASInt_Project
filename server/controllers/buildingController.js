@@ -63,6 +63,12 @@ exports.update = function (req, res) {
         if (err)
             res.send(err);
         else{
+          if (building == null) {
+            res.json({
+              status: "failed",
+              message: "No building with the specified id"
+            })
+          }else {
             building.building_id = req.body.building_id ? req.body.building_id : building.building_id;
             building.name = req.body.name ? req.body.name : building.name;
             building.latitude = req.body.latitude ? req.body.latitude : building.latitude;
@@ -85,6 +91,7 @@ exports.update = function (req, res) {
                     data: building
                 });
             });
+          }
         }
     });
 };
