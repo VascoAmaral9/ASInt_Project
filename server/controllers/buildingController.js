@@ -62,7 +62,7 @@ exports.update = function (req, res) {
     Building.findOne({building_id: req.params.building_id}, function (err, building) {
         if (err)
             res.send(err);
-        else{
+        else if(building){
             building.building_id = req.body.building_id ? req.body.building_id : building.building_id;
             building.name = req.body.name ? req.body.name : building.name;
             building.latitude = req.body.latitude ? req.body.latitude : building.latitude;
@@ -85,6 +85,11 @@ exports.update = function (req, res) {
                     data: building
                 });
             });
+        } else{
+            res.json({
+                status: "fail",
+                message: "Invalid ID"
+            })
         }
     });
 };
