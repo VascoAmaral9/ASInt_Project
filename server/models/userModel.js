@@ -23,7 +23,6 @@ var userSchema = new Schema({
     },
     distance_range: {
         type: Number,
-        required: true,
         default: 20
     },
     refresh_token: {

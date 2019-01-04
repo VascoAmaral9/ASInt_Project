@@ -24,9 +24,10 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
     var user = new User();
     user.istID = req.body.istID;
-    user.name = req.body.name;
-    user.latitude = req.body.latitude;
-    user.longitude = req.body.longitude;
+    user.distance_range = req.body.distance_range  ? req.body.distance_range : null;
+    user.refresh_token = req.body.refresh_token  ? req.body.refresh_token : null;
+    user.access_token = req.body.access_token  ? req.body.access_token : null;
+    user.token_expires = req.body.token_expires  ? req.body.token_expires : null;
 
     // save the user and check for errors
     user.save(function (err) {
@@ -44,7 +45,7 @@ exports.new = function (req, res) {
 
 // Handle view user info
 exports.view = function (req, res) {
-    User.find({istID: req.params.istID}, function (err, user) {
+    User.findOne({istID: req.params.istID}, function (err, user) {
         if (err)
             res.send(err);
         else{
@@ -64,16 +65,18 @@ exports.update = function (req, res) {
             res.send(err);
         else if(user){
             user.istID = req.body.istID ? req.body.istID : user.istID;
-            user.name = req.body.name ? req.body.name : user.name;
-            user.latitude = req.body.latitude ? req.body.latitude : user.latitude;
-            user.longitude = req.body.longitude ? req.body.longitude : user.longitude;
+            user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
+            user.refresh_token = req.body.refresh_token ? req.body.refresh_token : user.refresh_token;
+            user.access_token = req.body.access_token ? req.body.access_token : user.access_token;
+            user.token_expires = req.body.token_expires ? req.body.token_expires : user.token_expires;
 
             User.findOneAndUpdate({istID: req.params.istID}, {
               $set: {
                   istID: user.istID,
-                  name: user.name,
-                  latitude: user.latitude,
-                  longitude: user.longitude
+                  distance_range: user.distance_range,
+                  refresh_token: user.refresh_token,
+                  access_token: user.access_token,
+                  token_expires: user.token_expires
               }
             }, function (err) {
                 if (err)
@@ -87,8 +90,8 @@ exports.update = function (req, res) {
             });
         } else{
             res.json({
-                status: "fail",
-                message: "Invalid ID"
+                status: "failed",
+                message: "User istID is not in the database"
             })
         }
     });

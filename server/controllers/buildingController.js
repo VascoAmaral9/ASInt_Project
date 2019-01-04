@@ -44,7 +44,7 @@ exports.new = function (req, res) {
 
 // Handle view building info
 exports.view = function (req, res) {
-    Building.find({building_id: req.params.building_id}, function (err, building) {
+    Building.findOne({building_id: req.params.building_id}, function (err, building) {
         if (err)
             res.send(err);
         else{
