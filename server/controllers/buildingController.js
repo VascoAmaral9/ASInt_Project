@@ -87,8 +87,8 @@ exports.update = function (req, res) {
             });
         } else{
             res.json({
-                status: "fail",
-                message: "Invalid ID"
+                status: "failed",
+                message: "No building with the specified id"
             })
         }
     });
