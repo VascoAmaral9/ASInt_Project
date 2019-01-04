@@ -1,4 +1,7 @@
 // userController.js
+
+var config = require("../config/config")();
+
 // Import user model
 User = require('../models/userModel');
 
@@ -47,7 +50,7 @@ exports.new = function (req, res) {
 exports.view = function (req, res) {
     User.findOne({istID: req.params.istID}, function (err, user) {
         if (err)
-            res.send(err);
+            res.json(err);
         else{
             res.json({
                 status: "success",
@@ -62,7 +65,7 @@ exports.view = function (req, res) {
 exports.update = function (req, res) {
     User.findOne({istID: req.params.istID}, function (err, user) {
         if (err)
-            res.send(err);
+            res.json(err);
         else if(user){
             user.istID = req.body.istID ? req.body.istID : user.istID;
             user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
@@ -104,7 +107,7 @@ exports.delete = function (req, res) {
     },
     function (err, user) {
         if (err)
-            res.send(err);
+            res.json(err);
         else{
             res.json({
                 status: "success",

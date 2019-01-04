@@ -46,7 +46,7 @@ exports.new = function (req, res) {
 exports.view = function (req, res) {
     Building.findOne({building_id: req.params.building_id}, function (err, building) {
         if (err)
-            res.send(err);
+            res.json(err);
         else{
             res.json({
                 status: "success",
@@ -61,7 +61,7 @@ exports.view = function (req, res) {
 exports.update = function (req, res) {
     Building.findOne({building_id: req.params.building_id}, function (err, building) {
         if (err)
-            res.send(err);
+            res.json(err);
         else if(building){
             building.building_id = req.body.building_id ? req.body.building_id : building.building_id;
             building.name = req.body.name ? req.body.name : building.name;
@@ -101,7 +101,7 @@ exports.delete = function (req, res) {
     },
     function (err, building) {
         if (err)
-            res.send(err);
+            res.json(err);
         else{
             res.json({
                 status: "success",

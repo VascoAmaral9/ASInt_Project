@@ -13,6 +13,7 @@
   "author": "Vasco Amaral, José Bastos",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.3",
     "cross-env": "^5.2.0",

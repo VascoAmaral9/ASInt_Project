@@ -2,7 +2,7 @@
 
 var app = require('./server/config/base')();
 require('./server/services/db')(app);
-require("./server/routes/config")(app)
+require("./server/routes/config")(app);
 
 
 // catch 404 and forward to error handler
