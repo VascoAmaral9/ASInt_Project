@@ -27,7 +27,7 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
     var user = new User();
     user.istID = req.body.istID;
-    user.active = true;
+    user.active = false;
     user.distance_range = req.body.distance_range  ? req.body.distance_range : config.default.user_range;
     user.refresh_token = req.body.refresh_token  ? req.body.refresh_token : null;
     user.access_token = req.body.access_token  ? req.body.access_token : null;
@@ -90,7 +90,7 @@ exports.update = function (req, res) {
                     latitude: user.location.latitude,
                     longitude: user.location.longitude,
                     building: user.location.building,
-                    updatedAt: Date.now()
+                    updatedAt: user.location.updatedAt
                   }
               }
             }, function (err) {

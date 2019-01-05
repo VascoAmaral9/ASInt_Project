@@ -37,3 +37,48 @@ function newMovement(buildingA, buildingB, istID) {
           });
     });
 }
+
+// Handle index actions
+exports.index = function (req, res) {
+    Movement.get(function (err, movements) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+            });
+        } else{
+            res.json({
+                status: "success",
+                message: "Movements retrieved successfully",
+                data: movements
+            });
+        }
+    });
+};
+
+exports.new = function (req, res) {
+     var buildingA = req.body.buildingA;
+     var buildingB = req.body.buildingB;
+     var istID = req.body.istID;
+
+    newMovement(buildingA, buildingB, istID)
+      .then(function (status) {
+          if(status == "success"){
+              res.json({
+                  status: "success",
+                  message: "New movement created"
+              });
+          } else{
+              res.json({
+                  status: "failed",
+                  message: "Database Error"
+              });
+          }
+      })
+      .catch(function (error) {
+          res.json({
+              status: "error",
+              message: error,
+          });
+      });
+};

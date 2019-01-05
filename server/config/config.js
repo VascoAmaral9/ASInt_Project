@@ -1,4 +1,4 @@
-//General configurations file
+// Global variables file
 module.exports = function () {
     let configs = {
         db: {
@@ -23,7 +23,9 @@ module.exports = function () {
         default: {
             building_range: 20,
             user_range: 20,
-            active_timeout: 600 //10 minutes
+            timeout_updateLocation: 60, // User periodic location update -- 1 min
+            timeout_activeUser: 180, // User considered inactive -- 3 min
+            timeout_checkGlobal: 60 // Periodic update on active users -- 1 min
         }
     };
 

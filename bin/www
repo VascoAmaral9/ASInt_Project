@@ -4,6 +4,9 @@ var debug = require('debug')('asint:server');
 var http = require('http');
 var cron = require('node-cron');
 
+var config = require('../server/config/config')();
+var mixin = require('../server/config/mixin');
+
 var app = require('../app');
 
 // Get port from environment and store in Express.
@@ -21,8 +24,12 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 // Periodic tasks
-cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
+cron.schedule('*/' + config.default.timeout_checkGlobal + ' * * * * *', () => {
+    console.log('\nUpdating active users');
+    var url = config.host.path + '/users/location';
+    var params = {};
+    var data = {};
+    mixin.axiosRequest('get', url, params, data);
 });
 
 
