@@ -156,7 +156,7 @@ function refreshAccessToken(user) {
 }
 
 // Handle FENIX login
-exports.login = function (req, res) {
+  exports.login = function (req, res) {
     if(req.query.code){
         var user = {};
         getAccesToken(req.query.code)

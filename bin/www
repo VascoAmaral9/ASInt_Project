@@ -2,6 +2,7 @@
 
 var debug = require('debug')('asint:server');
 var http = require('http');
+var cron = require('node-cron');
 
 var app = require('../app');
 
@@ -18,6 +19,11 @@ server.listen(port, function(){
 });
 server.on('error', onError);
 server.on('listening', onListening);
+
+// Periodic tasks
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+});
 
 
 // Normalize a port into a number, string, or false.

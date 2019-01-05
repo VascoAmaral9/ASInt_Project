@@ -30,7 +30,8 @@ var messageSchema = new Schema({
     },
     type: {
         type: String,
-        required: true
+        required: true,
+        enum: ['building', 'range']
     }
 }, schemaOptions);
 

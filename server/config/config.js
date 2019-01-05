@@ -22,7 +22,8 @@ module.exports = function () {
         },
         default: {
             building_range: 20,
-            user_range: 20
+            user_range: 20,
+            active_timeout: 600 //10 minutes
         }
     };
 

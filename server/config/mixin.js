@@ -1,4 +1,9 @@
-exports.getDistance = function(lat1, lon1, lat2, lon2) {
+exports.getDistance = function(location1, location2) {
+    var lat1 = location1.latitude;
+    var lat2 = location2.latitude;
+    var lon1 = location1.longitude;
+    var lon2 = location2.longitude;
+
     if ((lat1 == lat2) && (lon1 == lon2)) {
         return 0;
     }

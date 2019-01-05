@@ -1,9 +1,9 @@
 // userController.js
+// Import user model
+User = require('../models/userModel');
 
 var config = require("../config/config")();
 
-// Import user model
-User = require('../models/userModel');
 
 // Handle index actions
 exports.index = function (req, res) {
@@ -69,7 +69,7 @@ exports.update = function (req, res) {
             res.json(err);
         else if(user){
             user.istID = req.body.istID ? req.body.istID : user.istID;
-            user.active = true;
+            user.active = req.body.active ? req.body.active : user.active;
             user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
             user.refresh_token = req.body.refresh_token ? req.body.refresh_token : user.refresh_token;
             user.access_token = req.body.access_token ? req.body.access_token : user.access_token;
@@ -77,6 +77,7 @@ exports.update = function (req, res) {
             user.location.latitude = req.body.location.latitude ? req.body.location.latitude : user.location.latitude;
             user.location.longitude = req.body.location.longitude ? req.body.location.longitude : user.location.longitude;
             user.location.building = req.body.location.building ? req.body.location.building : user.location.building;
+            user.location.updatedAt = req.body.location ? Date.now() : user.location.updatedAt; //TODO check if latitude == null, if it updates
 
             User.findOneAndUpdate({istID: req.params.istID}, {
               $set: {
@@ -88,7 +89,8 @@ exports.update = function (req, res) {
                   location: {
                     latitude: user.location.latitude,
                     longitude: user.location.longitude,
-                    building: user.location.building
+                    building: user.location.building,
+                    updatedAt: Date.now()
                   }
               }
             }, function (err) {

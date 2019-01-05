@@ -52,6 +52,9 @@ var userSchema = new Schema({
         },
         building : {
             type: String
+        },
+        updatedAt: {
+            type: Date
         }
     },
     movements: {
