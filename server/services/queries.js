@@ -35,7 +35,7 @@ function getMessages(req){
         if(req.query.building_id){
             User.find({
                 active: true,
-                location.building: req.query.building_id
+                'location.building': req.query.building_id
             }).exec()
               .then(function (usersInside) {
                   var usersInsideIds = [];
@@ -80,7 +80,7 @@ function getMovements(req){
         if(req.query.building_id){
             User.find({
                 active: true,
-                location.building: req.query.building_id
+                'location.building': req.query.building_id
             }).exec()
               .then(function (usersInside) {
                   var usersInsideIds = [];
@@ -169,8 +169,8 @@ exports.getNearbyUsers = function (req, res) {
               User.find({
                     active: true,
                     istID: {$ne: req.params.istID},
-                    location.latitude: {$ne: null},
-                    location.longitude: {$ne: null}
+                    'location.latitude': {$ne: null},
+                    'location.longitude': {$ne: null}
                 }).exec()
                 .then(function (activeUsers) {
                     var nearbyUsers = getNearby(user, activeUsers, type);

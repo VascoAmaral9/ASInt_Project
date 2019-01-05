@@ -118,8 +118,8 @@ exports.spreadUserMessage = function (req, res) {
               User.find({
                     active: true,
                     istID: {$ne: req.params.istID},
-                    location.latitude: {$ne: null},
-                    location.longitude: {$ne: null}
+                    'location.latitude': {$ne: null},
+                    'location.longitude': {$ne: null}
                 }).exec()
                 .then(function (activeUsers) {
                     var receivers = defineReceivers(user, activeUsers, type);
