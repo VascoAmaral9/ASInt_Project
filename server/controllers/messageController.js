@@ -8,8 +8,8 @@ var config = require('../config/config')();
 
 function newMessage(sender, receiver, type, text) {
     var message = new Message();
-    message.sender = sender;
-    message.receiver = receiver;
+    message.sender_id = sender;
+    message.receiver_id = receiver;
     message.type = type;
     message.text = text;
     var messageID = {};
