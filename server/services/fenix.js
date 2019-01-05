@@ -17,7 +17,6 @@ function updateUser(user) {
             url: config.host.path + '/users/' + user.istID,
             data: {
                 istID: user.istID,
-                distance_range: user.distance_range ? user.distance_range : null,
                 refresh_token:  user.refresh_token ? user.refresh_token : null,
                 access_token: user.access_token ? user.access_token : null,
                 token_expires: user.token_expires ? user.token_expires : null
@@ -33,7 +32,6 @@ function updateUser(user) {
                     url: config.host.path + '/users',
                     data: {
                         istID: user.istID,
-                        distance_range: user.distance_range ? user.distance_range : null,
                         refresh_token:  user.refresh_token ? user.refresh_token : null,
                         access_token: user.access_token ? user.access_token : null,
                         token_expires: user.token_expires ? user.token_expires : null

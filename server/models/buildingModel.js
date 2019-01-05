@@ -1,5 +1,6 @@
 // buildingModel.js
 var mongoose = require('mongoose');
+var Float = require('mongoose-float').loadType(mongoose, 6);
 var Schema = mongoose.Schema;
 
 mongoose.set('useCreateIndex', true);
@@ -26,12 +27,16 @@ var buildingSchema = new Schema({
         required: true
     },
     latitude: {
-        type: Number,
-        required: true
+        type: Float,
+        required: true,
+        max: 90,
+        min: -90
     },
     longitude: {
-        type: Number,
-        required: true
+        type: Float,
+        required: true,
+        max: 180,
+        min: -180
     }
 }, schemaOptions);
 

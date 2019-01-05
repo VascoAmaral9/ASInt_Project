@@ -27,7 +27,8 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
     var user = new User();
     user.istID = req.body.istID;
-    user.distance_range = req.body.distance_range  ? req.body.distance_range : 20;
+    user.active = true;
+    user.distance_range = req.body.distance_range  ? req.body.distance_range : config.default.user_range;
     user.refresh_token = req.body.refresh_token  ? req.body.refresh_token : null;
     user.access_token = req.body.access_token  ? req.body.access_token : null;
     user.token_expires = req.body.token_expires  ? req.body.token_expires : null;
@@ -68,10 +69,14 @@ exports.update = function (req, res) {
             res.json(err);
         else if(user){
             user.istID = req.body.istID ? req.body.istID : user.istID;
+            user.active = true;
             user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
             user.refresh_token = req.body.refresh_token ? req.body.refresh_token : user.refresh_token;
             user.access_token = req.body.access_token ? req.body.access_token : user.access_token;
             user.token_expires = req.body.token_expires ? req.body.token_expires : user.token_expires;
+            user.location.latitude = req.body.location.latitude ? req.body.location.latitude : user.location.latitude;
+            user.location.longitude = req.body.location.longitude ? req.body.location.longitude : user.location.longitude;
+            user.location.building = req.body.location.building ? req.body.location.building : user.location.building;
 
             User.findOneAndUpdate({istID: req.params.istID}, {
               $set: {
@@ -79,7 +84,12 @@ exports.update = function (req, res) {
                   distance_range: user.distance_range,
                   refresh_token: user.refresh_token,
                   access_token: user.access_token,
-                  token_expires: user.token_expires
+                  token_expires: user.token_expires,
+                  location: {
+                    latitude: user.location.latitude,
+                    longitude: user.location.longitude,
+                    building: user.location.building
+                  }
               }
             }, function (err) {
                 if (err)
