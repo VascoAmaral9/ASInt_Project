@@ -27,14 +27,12 @@ var buildingSchema = new Schema({
         required: true
     },
     latitude: {
-        type: Float,
-        required: true,
+        type: Number,
         max: 90,
         min: -90
     },
     longitude: {
-        type: Float,
-        required: true,
+        type: Number,
         max: 180,
         min: -180
     }

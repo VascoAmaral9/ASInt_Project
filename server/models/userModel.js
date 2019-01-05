@@ -41,12 +41,12 @@ var userSchema = new Schema({
     },
     location: {
         latitude: {
-            type: Float,
+            type: Number,
             max: 90,
             min: -90
         },
         longitude: {
-            type: Float,
+            type: Number,
             max: 180,
             min: -180
         },
