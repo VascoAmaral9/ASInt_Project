@@ -31,7 +31,7 @@ var messageSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['building', 'range']
+        enum: ['building', 'range', 'bot']
     }
 }, schemaOptions);
 

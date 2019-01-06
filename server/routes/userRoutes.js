@@ -4,7 +4,7 @@ let router = require('express').Router();
 
 // Import user controller
 var userController = require('../controllers/userController');
-var messageController = require('../controllers/messageController');
+
 // Import services
 var fenixServices = require('../services/fenix');
 var locationServices = require('../services/location');
@@ -30,9 +30,6 @@ router.route('/logs')
 
 router.route('/:istID/location')
     .post(locationServices.userUpdate);
-
-router.route('/:istID/message')
-    .post(messageController.spreadUserMessage);
 
 router.route('/:istID/nearbyUsers')
     .get(queriesServices.getNearbyUsers);

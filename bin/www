@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// Start and keep server
 
 var debug = require('debug')('asint:server');
 var http = require('http');

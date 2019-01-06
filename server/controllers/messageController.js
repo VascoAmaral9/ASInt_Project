@@ -19,11 +19,15 @@ function newMessage(sender, receiver, type, text) {
           .then(function (messageObj) {
               if(messageObj != null){
                   messageID = messageObj._id;
-                  return User.findOneAndUpdate({istID: sender}, {
-                      $push: {
+                  if(type === 'bot'){
+                      return Promise.resolve('bot');
+                  } else{
+                      return User.findOneAndUpdate({istID: sender}, {
+                        $push: {
                           messages: messageID
-                      }
-                  }).exec();
+                        }
+                      }).exec();
+                  }
               } else{
                   console.log("Database Error");
                   reject("Database Error");
@@ -66,7 +70,7 @@ function defineReceivers(user, activeUsers, type){
             if(distance < range)
                 receivers.push(activeUsers[x].istID);
         }
-    } else if(type === "building"){
+    } else if(type === "building" || type === "bot"){
         for(var x in activeUsers){
             if(activeUsers[x].location.building == user.location.building)
                 receivers.push(activeUsers[x].istID);
@@ -93,6 +97,47 @@ exports.index = function (req, res) {
         }
     });
 };
+
+// Handle spreading message from bot through all users
+exports.spreadBotMessage = function (req, res) {
+    var sender = req.params.botID;
+    var type = 'bot';
+    // Conditions for valid message
+    if(req.body.text && req.body.building_id){
+        var text = req.body.text;
+        var building_id = req.body.building_id;
+    }
+    else
+        res.json({status: "failed", message: "Invalid message"});
+
+    // All conditions met from this point forward
+    User.find({
+          active: true,
+          'location.latitude': {$ne: null},
+          'location.longitude': {$ne: null}
+      }).exec()
+      .then(function (activeUsers) {
+          var receivers = defineReceivers({'location': {'building': building_id}}, activeUsers, type);
+
+          for(var x in receivers){
+              newMessage(sender, receivers[x], type, text);
+          }
+          return Promise.resolve(receivers);
+      })
+      .then(function (receivers) {
+          res.json({
+              status: "success",
+              message: "Messages spreaded successfully",
+              data: receivers
+          });
+      })
+      .catch(function (error) {
+          res.json({
+              status: "error",
+              message: error,
+          });
+      });
+}
 
 // Handle spreading message from user through all users
 exports.spreadUserMessage = function (req, res) {
