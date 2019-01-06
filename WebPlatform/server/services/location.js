@@ -82,7 +82,9 @@ exports.globalUpdate = function (req, res) {
       .then(function (activeUsers) {
           for(var x in activeUsers){
               var user = activeUsers[x];
-              if((Date.now() - user.location.updatedAt) > config.default.timeout_activeUser){
+              var d = new Date();
+              console.log((d - user.location.updatedAt)/1000);
+              if((d - user.location.updatedAt)/1000 > config.default.timeout_activeUser){
                   user.location.latitude = null;
                   user.location.longitude = null;
                   user.location.building = null;

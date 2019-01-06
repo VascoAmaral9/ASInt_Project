@@ -70,7 +70,7 @@ exports.update = function (req, res) {
         else if(user){
             console.log(user);
             user.istID = req.body.istID ? req.body.istID : user.istID;
-            user.active = req.body.active ? req.body.active : user.active;
+            user.active = (typeof req.body.active !== 'undefined') ? req.body.active : user.active;
             user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
             user.refresh_token = req.body.refresh_token ? req.body.refresh_token : user.refresh_token;
             user.access_token = req.body.access_token ? req.body.access_token : user.access_token;
@@ -78,9 +78,9 @@ exports.update = function (req, res) {
             user.movements = req.body.movements ? req.body.movements : user.movements;
             user.messages = req.body.messages ? req.body.messages : user.messages;
             if(req.body.location){
-                user.location.latitude = req.body.location.latitude ? req.body.location.latitude : user.location.latitude;
-                user.location.longitude = req.body.location.longitude ? req.body.location.longitude : user.location.longitude;
-                user.location.building = req.body.location.building ? req.body.location.building : user.location.building;
+                user.location.latitude = (typeof req.body.location.latitude !== 'undefined') ? req.body.location.latitude : user.location.latitude;
+                user.location.longitude = (typeof req.body.location.longitude !== 'undefined') ? req.body.location.longitude : user.location.longitude;
+                user.location.building = (typeof req.body.location.building !== 'undefined') ? req.body.location.building : user.location.building;
                 user.location.updatedAt = Date.now(); //TODO check if latitude == null, if it updates
             }
 
