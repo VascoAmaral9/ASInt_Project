@@ -45,7 +45,7 @@ exports.getBuilding = function(lat, lon) {
           for(var x in buildings){
               var distance = setDistance(lat, lon, buildings[x].latitude, buildings[x].longitude);
               if(distance < range)
-                  return buildings[x].building_id
+                  return buildings[x].building_id;
           }
           return null;
       })
