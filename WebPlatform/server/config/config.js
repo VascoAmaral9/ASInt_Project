@@ -14,7 +14,7 @@ module.exports = function () {
             }
         },
         host: {
-            path: 'http://192.168.1.53:3000',
+            path: 'http://localhost:3000',
             port: 3000,
             sslPort: 18000
         },
