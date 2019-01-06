@@ -43,18 +43,22 @@ var userSchema = new Schema({
         latitude: {
             type: Number,
             max: 90,
-            min: -90
+            min: -90,
+            default: null
         },
         longitude: {
             type: Number,
             max: 180,
-            min: -180
+            min: -180,
+            default: null
         },
         building : {
-            type: String
+            type: String,
+            default: null
         },
         updatedAt: {
-            type: Date
+            type: Date,
+            default: Date.now()
         }
     },
     movements: {

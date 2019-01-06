@@ -2,6 +2,9 @@
 var cron = require('node-cron');
 var inquirer = require('inquirer');
 var axios = require('axios');
+var chalk = require('chalk');
+var clear = require('clear');
+var figlet = require('figlet');
 
 var config = require('./server/config/config')();
 var mixin = require('./server/config/mixin');
@@ -63,6 +66,12 @@ async function createBot() {
     botObj = await inquirer.prompt(questions);
     console.log(botObj);
 }
+
+console.log(
+  chalk.yellow(
+    figlet.textSync('Bot CLI', { horizontalLayout: 'full' })
+  )
+);
 
 createBot()
   .then(function () {

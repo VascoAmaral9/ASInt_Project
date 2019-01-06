@@ -4,8 +4,14 @@ let userRoutes = require("./userRoutes")
 let movementRoutes = require("./movementRoutes")
 let messageRoutes = require("./messageRoutes")
 
+var config = require('../config/config')();
+
 //Tutorial
 const { body, validationResult } = require('express-validator/check');
+
+function redirectUnmatched(req, res) {
+  res.redirect(config.host.path);
+}
 
 module.exports = function(app){
     app.use('/buildings', buildingRoutes)
@@ -13,7 +19,7 @@ module.exports = function(app){
     app.use('/movements', movementRoutes)
     app.use('/messages', messageRoutes)
     app.get('/', function(req, res){
-        res.render('./form', { title: 'Registration form' });
+        res.render('./start', { title: 'GeoMessage' });
     });
     app.post('/',
         [
@@ -36,5 +42,6 @@ module.exports = function(app){
                     data: req.body,
                 });
             }
-        });
+    });
+    app.use(redirectUnmatched);
 };

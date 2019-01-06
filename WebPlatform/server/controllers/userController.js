@@ -68,16 +68,21 @@ exports.update = function (req, res) {
         if (err)
             res.json(err);
         else if(user){
+            console.log(user);
             user.istID = req.body.istID ? req.body.istID : user.istID;
             user.active = req.body.active ? req.body.active : user.active;
             user.distance_range = req.body.distance_range ? req.body.distance_range : user.distance_range;
             user.refresh_token = req.body.refresh_token ? req.body.refresh_token : user.refresh_token;
             user.access_token = req.body.access_token ? req.body.access_token : user.access_token;
             user.token_expires = req.body.token_expires ? req.body.token_expires : user.token_expires;
-            user.location.latitude = req.body.location.latitude ? req.body.location.latitude : user.location.latitude;
-            user.location.longitude = req.body.location.longitude ? req.body.location.longitude : user.location.longitude;
-            user.location.building = req.body.location.building ? req.body.location.building : user.location.building;
-            user.location.updatedAt = req.body.location ? Date.now() : user.location.updatedAt; //TODO check if latitude == null, if it updates
+            user.movements = req.body.movements ? req.body.movements : user.movements;
+            user.messages = req.body.messages ? req.body.messages : user.messages;
+            if(req.body.location){
+                user.location.latitude = req.body.location.latitude ? req.body.location.latitude : user.location.latitude;
+                user.location.longitude = req.body.location.longitude ? req.body.location.longitude : user.location.longitude;
+                user.location.building = req.body.location.building ? req.body.location.building : user.location.building;
+                user.location.updatedAt = Date.now(); //TODO check if latitude == null, if it updates
+            }
 
             User.findOneAndUpdate({istID: req.params.istID}, {
               $set: {
@@ -86,6 +91,7 @@ exports.update = function (req, res) {
                   refresh_token: user.refresh_token,
                   access_token: user.access_token,
                   token_expires: user.token_expires,
+                  active: user.active,
                   location: {
                     latitude: user.location.latitude,
                     longitude: user.location.longitude,

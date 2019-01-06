@@ -6,10 +6,10 @@ html
     title= `${title}`
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/styles.css')
-    script(src='/scripts/layout.js')
 
   body
-    div.container.listing-reg#location
+    div.container.listing-reg
       h1 Geo Message WebApp
-
-      block content
+      div.col-md-3
+      div.col-md-6
+        btn.btn.btn-primary.btn-block.btn-md(onclick="window.location.href='/users/auth'") Fenix Login

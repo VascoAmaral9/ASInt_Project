@@ -27,6 +27,14 @@ function updateUser(user) {
         })
         .then(function (response) {
             if(response.data.status == "success"){
+                if(user.active == false){
+                    User.findOneAndUpdate({istID: user.istID}, {
+                      $set: {
+                          messages: [],
+                          movements: []
+                      }
+                    }).exec();
+                }
                 console.log("User updated with successs!");
                 resolve(response.data.data);
             } else{

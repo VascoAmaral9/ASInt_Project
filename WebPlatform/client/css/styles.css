@@ -2,10 +2,20 @@ body {
   padding: 40px 10px;
   background-color: #eee;
 }
+
+.listing-reg {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
 .listing-reg h1 {
   text-align: center;
   margin: 0 0 2rem;
 }
+
 
 /* css for registration form and errors*/
 .form-registration {

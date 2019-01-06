@@ -3,7 +3,11 @@
 
 var debug = require('debug')('asint:server');
 var http = require('http');
+var https = require('https');
 var cron = require('node-cron');
+var fs = require('fs-extra');
+var path = require('path');
+
 
 var config = require('../server/config/config')();
 var mixin = require('../server/config/mixin');
@@ -11,8 +15,22 @@ var mixin = require('../server/config/mixin');
 var app = require('../app');
 
 // Get port from environment and store in Express.
-var port = normalizePort(process.env.PORT || 3000);
+var port = normalizePort(process.env.PORT || config.host.port);
 app.set('port', port);
+
+/*var sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, '../certificate/project_asint.key')),
+  cert: fs.readFileSync(path.join(__dirname, '../certificate/project_asint.crt'))
+};
+
+var httpsServer = https.createServer(sslOptions, app);
+var SSLPORT = config.host.sslPort;
+
+httpsServer.listen(SSLPORT, function(){
+  console.log("HTTPS server started on port " + SSLPORT);
+});
+httpsServer.on('error', onError);
+httpsServer.on('listening', onListening);*/
 
 // Create HTTP server
 var server = http.createServer(app);
