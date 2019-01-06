@@ -54,7 +54,7 @@ public class FirstMenu extends JFrame {
 			}
 		});
 	}
-	
+
 	public void switchPanel(JPanel panel) {
 		layeredPane.removeAll();
 		layeredPane.add(panel);
@@ -72,17 +72,17 @@ public class FirstMenu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblWelcomeToThe = new JLabel("Welcome to the Administrator Interface. Hope you're having a good day!");
 		lblWelcomeToThe.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeToThe.setBounds(6, 19, 799, 33);
 		contentPane.add(lblWelcomeToThe);
-		
+
 		JLabel lblWhatDoYou = new JLabel("\nWhat do you want to do today?");
 		lblWhatDoYou.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWhatDoYou.setBounds(6, 60, 799, 16);
 		contentPane.add(lblWhatDoYou);
-		
+
 		JButton btnManageBuildings = new JButton("Manage Buildings");
 		btnManageBuildings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +91,7 @@ public class FirstMenu extends JFrame {
 		});
 		btnManageBuildings.setBounds(33, 102, 170, 33);
 		contentPane.add(btnManageBuildings);
-		
+
 		JButton btnSeeActiveUsers = new JButton("See active users");
 		btnSeeActiveUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,7 +100,7 @@ public class FirstMenu extends JFrame {
 		});
 		btnSeeActiveUsers.setBounds(397, 102, 170, 33);
 		contentPane.add(btnSeeActiveUsers);
-		
+
 		JButton btnSeeUsersInside = new JButton("See users inside building");
 		btnSeeUsersInside.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +109,7 @@ public class FirstMenu extends JFrame {
 		});
 		btnSeeUsersInside.setBounds(215, 102, 170, 33);
 		contentPane.add(btnSeeUsersInside);
-		
+
 		JButton btnSeeHistory = new JButton("See history");
 		btnSeeHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,19 +118,19 @@ public class FirstMenu extends JFrame {
 		});
 		btnSeeHistory.setBounds(579, 102, 170, 33);
 		contentPane.add(btnSeeHistory);
-		
+
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(6, 143, 799, 373);
 		contentPane.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
-		
+
 		JPanel empty = new JPanel();
 		layeredPane.add(empty, "name_58755716468941");
-		
+
 		manage = new JPanel();
 		layeredPane.add(manage, "name_53064456607961");
 		manage.setLayout(null);
-		
+
 		JButton btnCreate = new JButton("Create");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,58 +140,58 @@ public class FirstMenu extends JFrame {
 		});
 		btnCreate.setBounds(623, 94, 117, 29);
 		manage.add(btnCreate);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(29, 25, 574, 327);
 		manage.add(scrollPane);
-		
+
 		JList<Building> buildingList = new JList<>();
 		scrollPane.setViewportView(buildingList);
 		buildingList.setModel(dlmBuilding);
 		refreshBuildings();
-		
+
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login.executeRequest("http://localhost:3000/buildings/" + buildingList.getSelectedValue().getId(), " ", "DELETE");
+				Login.executeRequest(Config.REST_URL + "buildings/" + buildingList.getSelectedValue().getId(), " ", "DELETE");
 				refreshBuildings();
 			}
 		});
 		btnDelete.setBounds(623, 135, 117, 29);
 		manage.add(btnDelete);
-		
-		
+
+
 		JButton btnUploadFile = new JButton("Upload File");
 		btnUploadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
-				
+
 				int returnVal = chooser.showOpenDialog(null);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 			        File file = chooser.getSelectedFile();
 			        DefaultListModel<Building> newDlmBuildings = readBuildingsFromFile(file);
 			        for(int i=0;i<newDlmBuildings.getSize();i++) {
-			        	
+
 			        	try {
-							String urlParameters = 
-									"building_id=" + URLEncoder.encode(newDlmBuildings.get(i).getId(), "UTF-8") + 
-									"&name=" + URLEncoder.encode(newDlmBuildings.get(i).getName(), "UTF-8") + 
-									"&latitude=" + URLEncoder.encode(newDlmBuildings.get(i).getLatitude(), "UTF-8")+ 
+							String urlParameters =
+									"building_id=" + URLEncoder.encode(newDlmBuildings.get(i).getId(), "UTF-8") +
+									"&name=" + URLEncoder.encode(newDlmBuildings.get(i).getName(), "UTF-8") +
+									"&latitude=" + URLEncoder.encode(newDlmBuildings.get(i).getLatitude(), "UTF-8")+
 									"&longitude=" + URLEncoder.encode(newDlmBuildings.get(i).getLongitude(), "UTF-8");
-							Login.executeRequest("http://localhost:3000/buildings/" + newDlmBuildings.get(i).getId(), urlParameters, "DELETE");
-							Login.executeRequest("http://localhost:3000/buildings/", urlParameters, "POST");
+							Login.executeRequest(Config.REST_URL + "buildings/" + newDlmBuildings.get(i).getId(), urlParameters, "DELETE");
+							Login.executeRequest(Config.REST_URL + "buildings/", urlParameters, "POST");
 						} catch (UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-			        } 
+			        }
 			        refreshBuildings();
 				}
 			}
 		});
 		btnUploadFile.setBounds(623, 240, 117, 29);
 		manage.add(btnUploadFile);
-		
+
 		JButton btnRefresh_1 = new JButton("Refresh");
 		btnRefresh_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -200,30 +200,30 @@ public class FirstMenu extends JFrame {
 		});
 		btnRefresh_1.setBounds(623, 22, 117, 29);
 		manage.add(btnRefresh_1);
-		
+
 		usersInside = new JPanel();
 		layeredPane.add(usersInside, "name_52833081209141");
 		usersInside.setLayout(null);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(6, 6, 787, 361);
 		usersInside.add(scrollPane_1);
-		
+
 		JList list_1 = new JList();
 		scrollPane_1.setViewportView(list_1);
-		
+
 		usersActive = new JPanel();
 		layeredPane.add(usersActive, "name_135783483257574");
 		usersActive.setLayout(null);
-		
+
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(50, 15, 500, 340);
 		usersActive.add(scrollPane_3);
-		
+
 		JList activeUsersList = new JList();
 		scrollPane_3.setViewportView(activeUsersList);
 		activeUsersList.setModel(dlmActiveUsers);
-		
+
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -233,21 +233,21 @@ public class FirstMenu extends JFrame {
 		btnRefresh.setBounds(620, 26, 117, 29);
 		usersActive.add(btnRefresh);
 		refreshActiveUsers();
-		
+
 		history = new JPanel();
 		layeredPane.add(history, "name_53074142847739");
-		
-		
-	    
-		
+
+
+
+
 	}
-	
+
 	public static void refreshBuildings() {
-		String json = Login.executeRequest("http://localhost:3000/buildings/", " ", "GET");
+		String json = Login.executeRequest(Config.REST_URL + "buildings/", " ", "GET");
 		//System.out.println(json);
 		JSONObject jsonObject = new JSONObject(json);
 		JSONArray buildingsGet = jsonObject.getJSONArray("data");
-		
+
 		dlmBuilding.clear();
 		for (int i = 0; i < buildingsGet.length(); i++) {
             String buildingId = buildingsGet.getJSONObject(i).getString("building_id");
@@ -258,13 +258,13 @@ public class FirstMenu extends JFrame {
             dlmBuilding.addElement(new Building(buildingId, name, latitude, longitude));
 		}
 	}
-	
+
 	public static void refreshActiveUsers() {
-		String json = Login.executeRequest("http://localhost:3000/users/Active", " ", "GET");
+		String json = Login.executeRequest(Config.REST_URL + "users/Active", " ", "GET");
 		System.out.println(json);
 		JSONObject jsonObject = new JSONObject(json);
 		JSONArray ActiveUsersGet = jsonObject.getJSONArray("data");
-		
+
 		dlmActiveUsers.clear();
 		for (int i = 0; i < ActiveUsersGet.length(); i++) {
             String istID = ActiveUsersGet.getJSONObject(i).getString("istID");
@@ -272,8 +272,8 @@ public class FirstMenu extends JFrame {
             dlmActiveUsers.addElement(istID);
 		}
 	}
-	
-	public static DefaultListModel<Building> readBuildingsFromFile(File f) {  
+
+	public static DefaultListModel<Building> readBuildingsFromFile(File f) {
     	try {
     		DefaultListModel<Building> buildings = new DefaultListModel<>();
             byte[] bytes = Files.readAllBytes(f.toPath());
@@ -288,7 +288,7 @@ public class FirstMenu extends JFrame {
                 buildings.addElement(new Building(buildingId, name, latitude, longitude));
             }
             return buildings;
-            
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
