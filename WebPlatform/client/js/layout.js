@@ -1,9 +1,10 @@
 var cron = require('node-cron');
-var axios = require('axios');
+var $ = require("jquery");
 
 var config = require('../../server/config/config')();
 
-var istID = "ist";
+var istID = $("#myLocalDataObj").val();
+console.log(istID);
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {

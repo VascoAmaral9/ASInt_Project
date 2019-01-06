@@ -2,7 +2,9 @@ extends layout
 
 block content
   -data = data || {}
-
+  
+  span #{istID}
+  
   if errors
     ul.my-errors
       for error in errors
