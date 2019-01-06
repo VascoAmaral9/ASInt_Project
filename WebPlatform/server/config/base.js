@@ -10,6 +10,9 @@ var config = require('./config')();
 
 // view engine setup
 function initServerEngine(app) {
+    app.set("views", path.join(__dirname, '../../client/views/'));
+    app.set("view engine", "pug");
+
     app.use(logger('dev'));
 
     app.use(session({
@@ -30,7 +33,7 @@ function initServerEngine(app) {
 }
 
 function initPath(app) {
-    app.use(express.static(path.join(__dirname, '../../build/')));
+    app.use(express.static(path.join(__dirname, '../../client/')));
 }
 
 

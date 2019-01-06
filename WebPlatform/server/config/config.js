@@ -1,11 +1,14 @@
 // Global variables file
+var user = "asint";
+var passwd = "asint2019";
+
 module.exports = function () {
     let configs = {
         db: {
-            path: 'mongodb://localhost:27017/asintProject',
-            name: 'asintProject',
-            host: 'localhost',
-            port: 27017,
+            path: 'mongodb://'+user+':'+passwd+'@ds055689.mlab.com:55689/project_asint_vajb',
+            name: 'project_asint_vajb',
+            host: 'ds055689.mlab.com',
+            port: 55689,
             options: {
                 useNewUrlParser: true
             }
