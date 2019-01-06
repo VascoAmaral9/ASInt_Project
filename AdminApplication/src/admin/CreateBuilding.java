@@ -102,13 +102,13 @@ public class CreateBuilding extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
-							String urlParameters = 
-									"building_id=" + URLEncoder.encode(id.getText(), "UTF-8") + 
-									"&name=" + URLEncoder.encode(name.getText(), "UTF-8") + 
-									"&latitude=" + URLEncoder.encode(lat.getText(), "UTF-8")+ 
+							String urlParameters =
+									"building_id=" + URLEncoder.encode(id.getText(), "UTF-8") +
+									"&name=" + URLEncoder.encode(name.getText(), "UTF-8") +
+									"&latitude=" + URLEncoder.encode(lat.getText(), "UTF-8")+
 									"&longitude=" + URLEncoder.encode(lon.getText(), "UTF-8");
-							Login.executeRequest("http://localhost:3000/buildings/" + id.getText(), urlParameters, "DELETE");
-							Login.executeRequest("http://localhost:3000/buildings/", urlParameters, "POST");
+							Login.executeRequest(Config.REST_URL + "buildings/" + id.getText(), urlParameters, "DELETE");
+							Login.executeRequest(Config.REST_URL + "buildings/", urlParameters, "POST");
 							//JSON parse status "success" dialog box
 						} catch (UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
