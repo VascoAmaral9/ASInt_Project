@@ -89,8 +89,8 @@ public class Messages {
 
 	@Override
 	public String toString() {
-		return "Messages [user_id=" + user_id + ", receiver=" + receiver + ", dateTime=" + dateTime + ", message="
-				+ message + ", type=" + type + "]";
+		return "Sender: " + user_id + ", Receiver: " + receiver + ", Timestamp: " + dateTime + ", Type: " + type + ", Message: "
+				+ message;
 	}
 	
 	
