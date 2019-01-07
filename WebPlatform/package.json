@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git@github.com:VascoAmaral9/ASInt_Project.git"
   },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
+  },
   "author": "Vasco Amaral, José Bastos",
   "license": "ISC",
   "dependencies": {
@@ -34,6 +37,8 @@
     "morgan": "^1.9.1",
     "node-cron": "^2.0.3",
     "path": "^0.12.7",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "vue": "^2.5.21",
+    "vue-router": "^3.0.2"
   }
 }

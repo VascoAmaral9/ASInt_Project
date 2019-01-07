@@ -8,13 +8,17 @@ html
     link(rel='stylesheet', href='/css/styles.css')
 
   body
-    div.container.listing-reg#location
+    div.container.listing-reg#app
       h1 Geo Message WebApp
       
       - local_istID = istID // data coming in from Express.js
-      input(type='hidden', value=local_istID)#myLocalDataObj
+      input(type='hidden', value=local_istID)#istID
 
       block content
+        div(v-if="stage === 'start'")
+          include main.pug
+        div(v-else-if="stage === 'test'")
+          include test.pug
 
 
 script(src='/scripts/layout.js')

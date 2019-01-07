@@ -31,7 +31,7 @@ router.route('/logs')
 router.route('/:istID/location')
     .post(locationServices.userUpdate);
 
-router.route('/:istID/nearbyUsers')
+router.route('/:istID/nearby')
     .get(queriesServices.getNearbyUsers);
 
 router.route('/:istID')

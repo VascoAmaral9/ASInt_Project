@@ -182,7 +182,7 @@ exports.login = function (req, res) {
           })
           .then(function (userObj) {
               var user = userObj;
-              res.render('./main', { title: 'GeoMessage', istID: user.istID });
+              res.render('./layout', { title: 'GeoMessage', istID: user.istID });
           })
           .catch(function (error) {
               res.json(error);
