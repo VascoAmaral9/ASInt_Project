@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 
 import javax.swing.JLabel;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -27,11 +28,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JRadioButton;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class FirstMenu extends JFrame {
 
@@ -44,6 +45,19 @@ public class FirstMenu extends JFrame {
 	private static DefaultListModel<Building> dlmBuilding = new DefaultListModel<>();
 	private static DefaultListModel<String> dlmActiveUsers = new DefaultListModel<>();
 	private static DefaultListModel<String> dlmUsersInside = new DefaultListModel<>();
+	private static DefaultListModel<Movements> dlmMovements = new DefaultListModel<>();
+	private static DefaultListModel<Messages> dlmMessages = new DefaultListModel<>();
+	private static DefaultListModel<Object> dlmEmpty = new DefaultListModel<>();
+	private static JRadioButton rdbtnUser;
+	private static JRadioButton rdbtnBuilding;
+	private static JRadioButton rdbtnAll;
+	private static JList list_1;
+	private static JList<Building> list_2;
+	private static JList list_3;
+	private static JList activeUsersList;
+	private static JList<Building> buildingList;
+	private JScrollPane scrollPane_5;
+	private JLabel empty = new JLabel();
 	
 
 	/**
@@ -127,7 +141,7 @@ public class FirstMenu extends JFrame {
 		contentPane.add(btnSeeHistory);
 
 		layeredPane = new JLayeredPane();
-		layeredPane.setBounds(6, 143, 799, 373);
+		layeredPane.setBounds(6, 135, 799, 385);
 		contentPane.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
 
@@ -149,10 +163,10 @@ public class FirstMenu extends JFrame {
 		manage.add(btnCreate);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 25, 574, 327);
+		scrollPane.setBounds(20, 25, 583, 339);
 		manage.add(scrollPane);
-
-		JList<Building> buildingList = new JList<>();
+		
+		buildingList = new JList<>();
 		scrollPane.setViewportView(buildingList);
 		buildingList.setModel(dlmBuilding);
 		refreshBuildings();
@@ -223,7 +237,7 @@ public class FirstMenu extends JFrame {
 		usersInside.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(20, 44, 474, 316);
+		scrollPane_1.setBounds(20, 34, 474, 334);
 		usersInside.add(scrollPane_1);
 
 		JList b_list = new JList();
@@ -236,7 +250,7 @@ public class FirstMenu extends JFrame {
 		});
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(506, 44, 272, 316);
+		scrollPane_2.setBounds(506, 34, 272, 334);
 		usersInside.add(scrollPane_2);
 		
 		JList u_list = new JList();
@@ -245,12 +259,12 @@ public class FirstMenu extends JFrame {
 		
 		JLabel lblUsers = new JLabel("Users Inside:");
 		lblUsers.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUsers.setBounds(594, 16, 101, 16);
+		lblUsers.setBounds(594, 6, 101, 16);
 		usersInside.add(lblUsers);
 		
 		JLabel lblChooseBuilding = new JLabel("Choose Building:");
 		lblChooseBuilding.setHorizontalAlignment(SwingConstants.CENTER);
-		lblChooseBuilding.setBounds(187, 16, 113, 16);
+		lblChooseBuilding.setBounds(187, 6, 113, 16);
 		usersInside.add(lblChooseBuilding);
 
 		usersActive = new JPanel();
@@ -261,7 +275,7 @@ public class FirstMenu extends JFrame {
 		scrollPane_3.setBounds(50, 15, 500, 340);
 		usersActive.add(scrollPane_3);
 
-		JList activeUsersList = new JList();
+		activeUsersList = new JList();
 		scrollPane_3.setViewportView(activeUsersList);
 		activeUsersList.setModel(dlmActiveUsers);
 
@@ -279,36 +293,157 @@ public class FirstMenu extends JFrame {
 		layeredPane.add(history, "name_53074142847739");
 		history.setLayout(null);
 		
-		JRadioButton rdbtnUser = new JRadioButton("User");
-		rdbtnUser.setBounds(358, 33, 61, 23);
-		history.add(rdbtnUser);
 		
-		JRadioButton rdbtnBuilding = new JRadioButton("Building");
-		rdbtnBuilding.setBounds(262, 33, 96, 23);
-		history.add(rdbtnBuilding);
-		
-		JRadioButton rdbtnAll = new JRadioButton("All");
-		rdbtnAll.setSelected(true);
-		rdbtnAll.setBounds(431, 33, 61, 23);
-		history.add(rdbtnAll);
 		
 		JLabel lblSearchBy = new JLabel("Search by:");
-		lblSearchBy.setBounds(348, 12, 71, 16);
+		lblSearchBy.setBounds(348, 5, 71, 16);
 		history.add(lblSearchBy);
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
-		scrollPane_4.setBounds(288, 68, 472, 287);
+		scrollPane_4.setBounds(288, 65, 491, 132);
 		history.add(scrollPane_4);
 		
 		JList list = new JList();
 		scrollPane_4.setViewportView(list);
+		list.setModel(dlmMovements);
 		
-		JScrollPane scrollPane_5 = new JScrollPane();
-		scrollPane_5.setBounds(29, 70, 247, 285);
+		scrollPane_5 = new JScrollPane();
+		scrollPane_5.setBounds(29, 65, 247, 302);
 		history.add(scrollPane_5);
 		
-		JList list_1 = new JList();
-		scrollPane_5.setViewportView(list_1);
+		list_1 = new JList();
+		list_1.setModel(dlmActiveUsers);
+		list_1.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!list_1.isSelectionEmpty())
+				getLogs(1);
+			}
+		});
+		
+		
+		list_2 = new JList<>();
+		list_2.setModel(dlmBuilding);
+		list_2.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!list_2.isSelectionEmpty())
+				getLogs(2);
+			}
+		});
+		
+		list_3 = new JList<>();
+		dlmEmpty.clear();
+		list_3.setModel(dlmEmpty);
+		
+		
+		rdbtnUser = new JRadioButton("User");
+		rdbtnUser.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				changedRadioButton();
+			}
+		});
+		rdbtnUser.setBounds(358, 21, 61, 23);
+		history.add(rdbtnUser);
+		
+		rdbtnBuilding = new JRadioButton("Building");
+		rdbtnBuilding.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				changedRadioButton();
+			}
+		});
+		rdbtnBuilding.setBounds(262, 21, 96, 23);
+		history.add(rdbtnBuilding);
+		
+		rdbtnAll = new JRadioButton("All");
+		rdbtnAll.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				changedRadioButton();
+			}
+		});
+		rdbtnAll.setSelected(true);
+		rdbtnAll.setBounds(431, 21, 61, 23);
+		history.add(rdbtnAll);
+		
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rdbtnUser);
+		bg.add(rdbtnBuilding);
+		bg.add(rdbtnAll);
+		
+		JLabel lblMovements = new JLabel("Movements:");
+		lblMovements.setBounds(495, 45, 83, 16);
+		history.add(lblMovements);
+		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBounds(288, 221, 491, 146);
+		history.add(scrollPane_6);
+		
+		JList list_4 = new JList();
+		scrollPane_6.setViewportView(list_4);
+		list_4.setModel(dlmMessages);
+		
+		JLabel lblMessages = new JLabel("Messages:");
+		lblMessages.setBounds(500, 198, 83, 16);
+		history.add(lblMessages);
+	}
+	
+	public void changedRadioButton() {
+		if(rdbtnUser.isSelected()) {
+			refreshActiveUsers();
+			scrollPane_5.setViewportView(list_1);
+			list_1.setSelectedIndex(0);
+			getLogs(1);
+		} else if (rdbtnBuilding.isSelected()) {
+			refreshBuildings();
+			scrollPane_5.setViewportView(list_2);
+			list_2.setSelectedIndex(0);
+			getLogs(2);
+		} else if (rdbtnAll.isSelected()) {
+			scrollPane_5.setViewportView(list_3);
+			getLogs(3);
+		}
+	}
+	
+	
+	public void getLogs(int a) {
+		String URL;
+		switch (a) {
+			case 1: URL= "users/logs/?istID=" + list_1.getSelectedValue(); break;
+			case 2: URL= "users/logs/?building_id=" + list_2.getSelectedValue().getId(); break;
+			case 3: URL= "users/logs"; break;
+			default: URL= " "; break;
+		}
+		
+		String json = Login.executeRequest(Config.REST_URL + URL, " ", "GET");
+		System.out.println(json);
+		JSONObject jsonObject = new JSONObject(json);
+		JSONArray movementsGet = jsonObject.getJSONArray("movements");
+		JSONArray messagesGet = jsonObject.getJSONArray("messages");
+
+		dlmMovements.clear();
+		for (int i = 0; i < movementsGet.length(); i++) {
+            String istID = movementsGet.getJSONObject(i).getString("istID");
+            String buildingA = movementsGet.getJSONObject(i).getString("buildingA");
+            String buildingB = movementsGet.getJSONObject(i).getString("buildingB");
+            String dateTime = movementsGet.getJSONObject(i).getString("createdAt");
+            
+            Movements mov = new Movements(istID, buildingA, buildingB, dateTime);
+            
+            //System.out.println(istID);
+            dlmMovements.addElement(mov);
+		}
+		
+		dlmMessages.clear();
+		for (int i = 0; i < messagesGet.length(); i++) {
+            String sender_id = messagesGet.getJSONObject(i).getString("sender_id");
+            String receiver_id = messagesGet.getJSONObject(i).getString("receiver_id");
+            String dateTime = messagesGet.getJSONObject(i).getString("createdAt");
+            String message = messagesGet.getJSONObject(i).getString("text");
+            String type = messagesGet.getJSONObject(i).getString("type");
+            
+            Messages mes = new Messages(sender_id, receiver_id, dateTime, message, type);
+            
+            //System.out.println(istID);
+            dlmMessages.addElement(mes);
+		}
 	}
 	
 	
@@ -328,7 +463,7 @@ public class FirstMenu extends JFrame {
 
 	public static void refreshBuildings() {
 		String json = Login.executeRequest(Config.REST_URL + "buildings/", " ", "GET");
-		//System.out.println(json);
+		System.out.println(json);
 		JSONObject jsonObject = new JSONObject(json);
 		JSONArray buildingsGet = jsonObject.getJSONArray("data");
 
