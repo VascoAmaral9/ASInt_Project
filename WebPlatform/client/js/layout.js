@@ -4,7 +4,6 @@ var $ = require("jquery");
 var config = require('../../server/config/config')();
 
 var istID = $("#myLocalDataObj").val();
-alert(istID);
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
@@ -12,9 +11,7 @@ cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () =>
 });
 
 function showPosition(position) {
-    alert("Lat: " + position.coords.latitude + "<br>Lon: " + position.coords.longitude);
-
-    var url = config.host.path + '/' + istID + '/location';
+    var url = config.host.path + '/users/' + istID + '/location';
     var data = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -23,6 +20,7 @@ function showPosition(position) {
       type: "POST",
       data: data,
       success: function(data) {
+          console.log(data);
           console.log("Location updated!");
       }
     });

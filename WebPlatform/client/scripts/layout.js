@@ -5,15 +5,26 @@ var $ = require("jquery");
 var config = require('../../server/config/config')();
 
 var istID = $("#myLocalDataObj").val();
-alert(istID);
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
-      sendLocation();
+    sendLocation();
 });
 
 function showPosition(position) {
-    alert("Lat: " + position.coords.latitude + "<br>Lon: " + position.coords.longitude);
+    var url = config.host.path + '/users/' + istID + '/location';
+    var data = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    };
+    $.ajax({url: url,
+      type: "POST",
+      data: data,
+      success: function(data) {
+          console.log(data);
+          console.log("Location updated!");
+      }
+    });
 }
 
 function sendLocation() {
@@ -26,12 +37,6 @@ function sendLocation() {
     } else {
         alert("Geolocation is not supported by this browser.");
     }
-
-
-    var url = config.host.path + '/' + istID + '/location';
-    var params = {};
-    var data = {};
-    //mixin.axiosRequest('post', url, params, data);
 }
 
 },{"../../server/config/config":15,"jquery":2,"node-cron":9}],2:[function(require,module,exports){
@@ -10983,14 +10988,18 @@ module.exports = function () {
             }
         },
         host: {
-            path: 'http://localhost:3000',
+            //path: 'http://localhost:3000',
+            path: 'https://asint2019jbva.appspot.com',
             port: 3000,
             sslPort: 18000
         },
         fenix: {
-            client_id: '1414440104755255',
-            client_secret: 'UAATyrvuFnd8TJoCTgOp8BQuvHC7Xfg71oKCrnyi5fziScTpmp/AxQxjYwN726IoYVR8JW43OJo2fgAK44VftA==',
-            redirect_uri: 'http://192.168.1.53:3000/users/auth',
+            client_id: '1414440104755264',
+            client_secret: 'v1rGK/oExNdH3jGRJK4XfC5QM/rU/zDCHFvy7J1eVpqDI8u9PL7PXxB/kM9jP1+g4dqfdBHftciUcAYCGl17vg==',
+            redirect_uri: 'https://asint2019jbva.appspot.com/users/auth',
+            //client_id: '1414440104755255',
+            //client_secret: 'UAATyrvuFnd8TJoCTgOp8BQuvHC7Xfg71oKCrnyi5fziScTpmp/AxQxjYwN726IoYVR8JW43OJo2fgAK44VftA==',
+            //redirect_uri: 'http://192.168.1.53:3000/users/auth',
             api_url: 'https://fenix.tecnico.ulisboa.pt/api/fenix/v1',
             oauth_url: 'https://fenix.tecnico.ulisboa.pt/oauth'
         },
