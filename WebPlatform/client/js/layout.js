@@ -144,8 +144,8 @@ var app = new Vue({
                       else
                           _this.$data.nearby = false;
                   } else{
-                      alert(data.message);
                       _this.$data.nearby = false;
+                      _this.$data.usersNearby = [];
                   }
               }
           });
@@ -164,7 +164,9 @@ var app = new Vue({
                       else
                           _this.$data.messageExists = false;
                   } else{
-                      alert(data.message);
+                      _this.$data.messageExists = false;
+                      _this.$data.messages = [];
+                      console.log(data.message);
                   }
               }
           });
