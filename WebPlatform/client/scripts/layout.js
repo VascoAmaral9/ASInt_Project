@@ -15,11 +15,8 @@ Vue.filter('formatDate', function(value) {
 
 var config = require('../../server/config/config')();
 var istID = $("#istID").val();
-console.log(istID);
-console.log(app.istID);
 
 setTimeout(function () {
-    console.log(app.istID);
     sendLocation();
 }, 300);
 
