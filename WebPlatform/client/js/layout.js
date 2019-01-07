@@ -13,6 +13,19 @@ cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () =>
 
 function showPosition(position) {
     alert("Lat: " + position.coords.latitude + "<br>Lon: " + position.coords.longitude);
+
+    var url = config.host.path + '/' + istID + '/location';
+    var data = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+    };
+    $.ajax({url: url,
+      type: "POST",
+      data: data,
+      success: function(data) {
+          console.log("Location updated!");
+      }
+    });
 }
 
 function sendLocation() {
@@ -25,10 +38,4 @@ function sendLocation() {
     } else {
         alert("Geolocation is not supported by this browser.");
     }
-
-
-    var url = config.host.path + '/' + istID + '/location';
-    var params = {};
-    var data = {};
-    //mixin.axiosRequest('post', url, params, data);
 }
