@@ -37,7 +37,9 @@ function updateUser(user) {
                       }
                     }).exec()
                       .then(function (user) {
-                          Movement.deleteMany({istID: user.istID}).exec();
+                          return Movement.deleteMany({istID: user.istID}).exec();
+                      })
+                      .then(function (){
                           Message.deleteMany({receiver_id: user.istID}).exec();
                       });
                 }
