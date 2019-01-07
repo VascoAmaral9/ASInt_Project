@@ -4,11 +4,11 @@ var $ = require("jquery");
 var config = require('../../server/config/config')();
 
 var istID = $("#myLocalDataObj").val();
-console.log(istID);
+alert(istID);
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
-      sendLocation();
+    sendLocation();
 });
 
 function showPosition(position) {
