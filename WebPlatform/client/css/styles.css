@@ -1,6 +1,6 @@
 body {
   padding: 40px 10px;
-  background-color: #eee;
+  background-color: rgba(33, 82, 206, 0.7);
 }
 
 .text-center {
@@ -8,7 +8,7 @@ body {
 }
 
 .bg-grey {
-  background-color: #eee;
+  background-color: rgba(33, 82, 206, 0.7);
 }
 
 .padding {
