@@ -6,6 +6,8 @@ var mixin = require('../config/mixin');
 
 // Import user model
 User = require('../models/userModel');
+Movement = require('../models/movementModel');
+Message = require('../models/messageModel');
 
 
 // Saves/updates user in database
@@ -33,10 +35,13 @@ function updateUser(user) {
                           messages: [],
                           movements: []
                       }
-                    }).exec();
+                    }).exec()
+                      .then(function (user) {
+                          Movement.deleteMany({istID: user.istID}).exec();
+                          Message.deleteMany({istID: user.istID}).exec();
+                      });
                 }
                 console.log("User updated with successs!");
-                console.log(response.data.data);
                 resolve(response.data.data);
             } else{
                 throw "Unknow error"
@@ -52,12 +57,14 @@ function updateUser(user) {
 function newMovement (user, newBuilding) {
     return new Promise(function (resolve, reject) {
         // Api endpoint to update user in case it exists
+        var buildingA = user.location.building ? user.location.building : "Outside";
+        var buildingB = newBuilding ? newBuilding : "Outside";
         axios({
             method: 'post',
             url: config.host.path + '/movements',
             data: {
-                buildingA: user.location.building,
-                buildingB: newBuilding,
+                buildingA: buildingA,
+                buildingB: buildingB,
                 istID: user.istID
             }
         })
@@ -84,7 +91,6 @@ exports.globalUpdate = function (req, res) {
           for(var x in activeUsers){
               var user = activeUsers[x];
               var d = new Date();
-              console.log((d - user.location.updatedAt)/1000);
               if((d - user.location.updatedAt)/1000 > config.default.timeout_activeUser){
                   user.location.latitude = null;
                   user.location.longitude = null;
@@ -112,9 +118,8 @@ exports.userUpdate = function (req, res) {
               user.location.longitude = parseFloat(req.body.longitude);
               mixin.getBuilding(user.location.latitude, user.location.longitude)
                 .then(function (newBuilding){
-                    console.log(newBuilding);
                     // Creates new movement if user changes building
-                    if((user.location.building != newBuilding) && (user.location.building != null) && (newBuilding != null))
+                    if((user.location.building != newBuilding))
                         newMovement(user, newBuilding);
 
                     user.location.building = newBuilding;
@@ -122,7 +127,6 @@ exports.userUpdate = function (req, res) {
                     return updateUser(user);
                 })
                 .then(function (user) {
-                    console.log(user);
                     res.json(user);
                 })
                 .catch(function (error) {
