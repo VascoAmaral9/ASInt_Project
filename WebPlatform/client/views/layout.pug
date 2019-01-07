@@ -52,50 +52,50 @@ html
           div.col-md-12
             div.panel.panel-default
               div.panel-heading
-                h5.text-muted Messages
+                h5.text-muted Users Nearby
+                div.col-md-8
+                div.input-group.form-group.col-md-4
+                  span.input-group-addon
+                    i.glyphicon.glyphicon-bullhorn
+                  select.form-control(v-model="nearbyType")
+                    option(value="range") Inside range
+                    option(value="building") Same building
               div.panel-wrapper.collapse-in
                 div.panel-body.padding
-                  div.row(v-if="!messageExists")
-                    span.text-muted No messages to show
+                  div.row(v-if="!nearby")
+                    span.text-muted No users nearby
                   div.row(v-else)
-                    table.table
-                      thead
-                        tr
-                          th(scope="col") #
-                          th(scope="col") Sender
-                          th(scope="col") Receiver
-                          th(scope="col") Message
-                          th(scope="col") Time
-                      tbody
-                        tr(v-for="(item, index) in messages")
-                          th(scope="row") {{index + 1}}
-                          td {{item.sender_id}}
-                          td {{item.receiver_id}}
-                          td {{item.text}}
-                          td {{item.updatedAt | formatDate}}
+                    ul(v-for="user in usersNearby")
+                      li {{user}}
                   div.row
-                    div.btn.btn-primary.pull-right(v-on:click="getMessages()") Refresh
+                    div.btn.btn-primary.pull-right(v-on:click="nearbyUsers()") Refresh
 
-      div.col-md-6
+      div.col-md-6.messages
         div.panel.panel-default
           div.panel-heading
-            h5.text-muted Users Nearby
-            div.col-md-8
-            div.input-group.form-group.col-md-4
-              span.input-group-addon
-                i.glyphicon.glyphicon-bullhorn
-              select.form-control(v-model="nearbyType")
-                option(value="range") Inside range
-                option(value="building") Same building
+            h5.text-muted Messages
           div.panel-wrapper.collapse-in
             div.panel-body.padding
-              div.row(v-if="!nearby")
-                span.text-muted No users nearby
+              div.row(v-if="!messageExists")
+                span.text-muted No messages to show
               div.row(v-else)
-                ul(v-for="user in usersNearby")
-                  li {{user}}
+                table.table
+                  thead
+                    tr
+                      th(scope="col") #
+                      th(scope="col") Sender
+                      th(scope="col") Receiver
+                      th(scope="col") Message
+                      th(scope="col") Time
+                  tbody
+                    tr(v-for="(item, index) in messages")
+                      th(scope="row") {{index + 1}}
+                      td {{item.sender_id}}
+                      td {{item.receiver_id}}
+                      td {{item.text}}
+                      td {{item.updatedAt | formatDate}}
               div.row
-                div.btn.btn-primary.pull-right(v-on:click="nearbyUsers()") Refresh
+                div.btn.btn-primary.pull-right(v-on:click="getMessages()") Refresh
 
 
 

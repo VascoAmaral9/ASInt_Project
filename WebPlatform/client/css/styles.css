@@ -22,6 +22,10 @@ body {
     margin-left: 20px;
 }
 
+.messages {
+    min-height: 470px;
+}
+
 .start {
     display: flex;
     flex-wrap: wrap;
