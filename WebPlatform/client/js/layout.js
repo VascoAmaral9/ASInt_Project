@@ -14,10 +14,16 @@ Vue.filter('formatDate', function(value) {
 
 var config = require('../../server/config/config')();
 var istID = $("#istID").val();
+console.log(istID);
+console.log(app.istID);
 
-sendLocation();
+setTimeout(function () {
+    console.log(app.istID);
+    sendLocation();
+}, 300);
+
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
-    app.sendLocation();
+    sendLocation();
     app.nearbyUsers();
     app.getMessages();
 });
@@ -86,7 +92,7 @@ var app = new Vue({
               _this.nearbyUsers();
               _this.getMessages();
           }, 300);
-      }
+      },
       changeStage: function(stage) {
           var _this = this;
           _this.$data.stage = stage;
