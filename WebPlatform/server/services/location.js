@@ -36,6 +36,7 @@ function updateUser(user) {
                     }).exec();
                 }
                 console.log("User updated with successs!");
+                console.log(response.data.data);
                 resolve(response.data.data);
             } else{
                 throw "Unknow error"
@@ -62,7 +63,7 @@ function newMovement (user, newBuilding) {
         })
         .then(function (response) {
             if(response.data.status == "success"){
-                console.log("User updated with successs!");
+                console.log("New movement added with successs!");
                 resolve(response.data.data);
             } else{
                 throw "Unknow error"
@@ -109,20 +110,27 @@ exports.userUpdate = function (req, res) {
               // Ready to set user updated location
               user.location.latitude = parseFloat(req.body.latitude);
               user.location.longitude = parseFloat(req.body.longitude);
-              var newBuilding = mixin.getBuilding(user.location.latitude, user.location.longitude);
-              // Creates new movement if user changes building
-              if((user.location.building != newBuilding) && (user.location.building != null) && (newBuilding != null))
-                  newMovement(user, newBuilding);
+              mixin.getBuilding(user.location.latitude, user.location.longitude)
+                .then(function (newBuilding){
+                    console.log(newBuilding);
+                    // Creates new movement if user changes building
+                    if((user.location.building != newBuilding) && (user.location.building != null) && (newBuilding != null))
+                        newMovement(user, newBuilding);
 
-              user.location.building = newBuilding;
-              user.active = true;
-              return updateUser(user);
+                    user.location.building = newBuilding;
+                    user.active = true;
+                    return updateUser(user);
+                })
+                .then(function (user) {
+                    console.log(user);
+                    res.json(user);
+                })
+                .catch(function (error) {
+                    res.json(error);
+                });
           } else{
               res.json({status: "failed", message: "User istID is not in the database"});
           }
-      })
-      .then(function (user) {
-          res.json(user);
       })
       .catch(function (error) {
           res.json(error);

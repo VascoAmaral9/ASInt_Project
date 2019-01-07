@@ -39,20 +39,21 @@ exports.getDistance = function(location1, location2) {
 };
 
 exports.getBuilding = function(lat, lon) {
-    var range = config.default.building_range;
-    Building.find().exec()
-      .then(function (buildings) {
-          for(var x in buildings){
-              var distance = setDistance(lat, lon, buildings[x].latitude, buildings[x].longitude);
-              if(distance < range)
-                  return buildings[x].building_id;
-          }
-          return null;
-      })
-      .catch(function (error) {
-          return null;
-      });
-
+    return new Promise(function (resolve, reject) {
+        var range = config.default.building_range;
+        Building.find().exec()
+          .then(function (buildings) {
+              for(var x in buildings){
+                  var distance = setDistance(lat, lon, buildings[x].latitude, buildings[x].longitude);
+                  if(distance < range)
+                      resolve(buildings[x].building_id);
+              }
+              resolve(null);
+          })
+          .catch(function (error) {
+              resolve(null);
+          });
+    });
 };
 
 exports.axiosRequest = function(method, url, params, data) {
