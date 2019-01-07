@@ -7,6 +7,10 @@ public class Building {
 	private String longitude;
 	
 	
+	Building() {
+		super();
+	}
+
 	Building(String id, String name, String latitude, String longitude) {
 		super();
 		this.id = id;

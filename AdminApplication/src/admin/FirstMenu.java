@@ -27,6 +27,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.JRadioButton;
 
 public class FirstMenu extends JFrame {
 
@@ -38,6 +43,8 @@ public class FirstMenu extends JFrame {
 	private JLayeredPane layeredPane;
 	private static DefaultListModel<Building> dlmBuilding = new DefaultListModel<>();
 	private static DefaultListModel<String> dlmActiveUsers = new DefaultListModel<>();
+	private static DefaultListModel<String> dlmUsersInside = new DefaultListModel<>();
+	
 
 	/**
 	 * Launch the application.
@@ -138,7 +145,7 @@ public class FirstMenu extends JFrame {
 				create.setVisible(true);
 			}
 		});
-		btnCreate.setBounds(623, 94, 117, 29);
+		btnCreate.setBounds(623, 77, 117, 29);
 		manage.add(btnCreate);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -200,17 +207,51 @@ public class FirstMenu extends JFrame {
 		});
 		btnRefresh_1.setBounds(623, 22, 117, 29);
 		manage.add(btnRefresh_1);
+		
+		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EditBuilding edit = new EditBuilding(buildingList.getSelectedValue());
+				edit.setVisible(true);
+			}
+		});
+		btnEdit.setBounds(623, 106, 117, 29);
+		manage.add(btnEdit);
 
 		usersInside = new JPanel();
 		layeredPane.add(usersInside, "name_52833081209141");
 		usersInside.setLayout(null);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(6, 6, 787, 361);
+		scrollPane_1.setBounds(20, 44, 474, 316);
 		usersInside.add(scrollPane_1);
 
-		JList list_1 = new JList();
-		scrollPane_1.setViewportView(list_1);
+		JList b_list = new JList();
+		scrollPane_1.setViewportView(b_list);
+		b_list.setModel(dlmBuilding);
+		b_list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				getUsersInside((Building) b_list.getSelectedValue());
+			}
+		});
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(506, 44, 272, 316);
+		usersInside.add(scrollPane_2);
+		
+		JList u_list = new JList();
+		scrollPane_2.setViewportView(u_list);
+		u_list.setModel(dlmUsersInside);
+		
+		JLabel lblUsers = new JLabel("Users Inside:");
+		lblUsers.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsers.setBounds(594, 16, 101, 16);
+		usersInside.add(lblUsers);
+		
+		JLabel lblChooseBuilding = new JLabel("Choose Building:");
+		lblChooseBuilding.setHorizontalAlignment(SwingConstants.CENTER);
+		lblChooseBuilding.setBounds(187, 16, 113, 16);
+		usersInside.add(lblChooseBuilding);
 
 		usersActive = new JPanel();
 		layeredPane.add(usersActive, "name_135783483257574");
@@ -236,10 +277,53 @@ public class FirstMenu extends JFrame {
 
 		history = new JPanel();
 		layeredPane.add(history, "name_53074142847739");
+		history.setLayout(null);
+		
+		JRadioButton rdbtnUser = new JRadioButton("User");
+		rdbtnUser.setBounds(358, 33, 61, 23);
+		history.add(rdbtnUser);
+		
+		JRadioButton rdbtnBuilding = new JRadioButton("Building");
+		rdbtnBuilding.setBounds(262, 33, 96, 23);
+		history.add(rdbtnBuilding);
+		
+		JRadioButton rdbtnAll = new JRadioButton("All");
+		rdbtnAll.setSelected(true);
+		rdbtnAll.setBounds(431, 33, 61, 23);
+		history.add(rdbtnAll);
+		
+		JLabel lblSearchBy = new JLabel("Search by:");
+		lblSearchBy.setBounds(348, 12, 71, 16);
+		history.add(lblSearchBy);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(288, 68, 472, 287);
+		history.add(scrollPane_4);
+		
+		JList list = new JList();
+		scrollPane_4.setViewportView(list);
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		scrollPane_5.setBounds(29, 70, 247, 285);
+		history.add(scrollPane_5);
+		
+		JList list_1 = new JList();
+		scrollPane_5.setViewportView(list_1);
+	}
+	
+	
+	public static void getUsersInside(Building building) {
+		String json = Login.executeRequest(Config.REST_URL + "users/Active/?building_id=" + building.getId(), " ", "GET");
+		//System.out.println(json);
+		JSONObject jsonObject = new JSONObject(json);
+		JSONArray UsersInsideGet = jsonObject.getJSONArray("data");
 
-
-
-
+		dlmUsersInside.clear();
+		for (int i = 0; i < UsersInsideGet.length(); i++) {
+            String istID = UsersInsideGet.getJSONObject(i).getString("istID");
+            //System.out.println(istID);
+            dlmUsersInside.addElement(istID);
+		}
 	}
 
 	public static void refreshBuildings() {
@@ -261,7 +345,7 @@ public class FirstMenu extends JFrame {
 
 	public static void refreshActiveUsers() {
 		String json = Login.executeRequest(Config.REST_URL + "users/Active", " ", "GET");
-		System.out.println(json);
+		//System.out.println(json);
 		JSONObject jsonObject = new JSONObject(json);
 		JSONArray ActiveUsersGet = jsonObject.getJSONArray("data");
 
