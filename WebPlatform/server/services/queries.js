@@ -43,7 +43,7 @@ function getMessages(req){
                       usersInsideIds.push(usersInside[x].istID);
                   return Message.find({$or: [ { sender_id: { $in: usersInsideIds } }, { receiver_id: { $in: usersInsideIds} } ]}).sort({createdAt: -1}).exec();
               })
-              ,then(function (messages) {
+              .then(function (messages) {
                   resolve(messages);
               })
               .catch(function (error) {
@@ -88,7 +88,7 @@ function getMovements(req){
                       usersInsideIds.push(usersInside[x].istID);
                   return Movement.find({istID: { $in: usersInsideIds } }).sort({createdAt: -1}).exec();
               })
-              ,then(function (movements) {
+              .then(function (movements) {
                   resolve(movements);
               })
               .catch(function (error) {
