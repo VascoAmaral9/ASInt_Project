@@ -16,13 +16,13 @@ var config = require('../../server/config/config')();
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
-    sendLocation();
+    app.sendLocation();
     app.nearbyUsers();
     app.getMessages();
 });
 
-function showPosition(position) {
-    var url = config.host.path + '/users/' + istID + '/location';
+function showPosition(position, istID) {
+    var url = config.host.path + '/users/' + app.istID + '/location';
     var data = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -85,7 +85,7 @@ var app = new Vue({
               _this.nearbyUsers();
               _this.getMessages();
           }, 300);
-      },
+      }
       changeStage: function(stage) {
           var _this = this;
           _this.$data.stage = stage;
