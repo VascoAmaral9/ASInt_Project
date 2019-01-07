@@ -34,6 +34,9 @@ router.route('/:istID/location')
 router.route('/:istID/nearby')
     .get(queriesServices.getNearbyUsers);
 
+router.route('/:istID/messages')
+    .get(queriesServices.getMessages);
+
 router.route('/:istID')
     .get(userController.view)
     .put(userController.update)

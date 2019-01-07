@@ -217,3 +217,22 @@ exports.getLogs = function (req, res) {
           });
       });
 }
+// Handle retrieving logs
+exports.getMessages = function (req, res) {
+    var ret = {};
+    req.query.istID = req.params.istID;
+
+    getMessages(req)
+      .then(function (messages) {
+          ret.messages = messages;
+          ret.status = "success";
+          ret.message = "Messages retrieved successfully";
+          res.json(ret);
+      })
+      .catch(function (error) {
+          res.json({
+              status: "error",
+              message: error,
+          });
+      });
+}

@@ -38,7 +38,7 @@ function updateUser(user) {
                     }).exec()
                       .then(function (user) {
                           Movement.deleteMany({istID: user.istID}).exec();
-                          Message.deleteMany({istID: user.istID}).exec();
+                          Message.deleteMany({receiver_id: user.istID}).exec();
                       });
                 }
                 console.log("User updated with successs!");

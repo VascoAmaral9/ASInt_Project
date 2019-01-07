@@ -4,21 +4,100 @@ html
     meta(charset="utf-8")
     meta(name="viewport")
     title= `${title}`
-    link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/styles.css')
+    //-Latest compiled and minified CSS 
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    //-jQuery library -->
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+    //-Latest compiled JavaScript -->
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
 
-  body
-    div.container.listing-reg#app
-      h1 Geo Message WebApp
-      
+  body.bg-grey
+    div.container.layout#app
       - local_istID = istID // data coming in from Express.js
       input(type='hidden', value=local_istID)#istID
-
-      block content
-        div(v-if="stage === 'start'")
-          include main.pug
-        div(v-else-if="stage === 'test'")
-          include test.pug
-
+      - local_range = distance_range // data coming in from Express.js
+      input(type='hidden', value=local_range)#range
+      h1 Geo Message WebApp
+      
+      div.col-md-6
+        div.row
+          div.col-md-4
+            div.panel.panel-default
+              div.panel-heading
+                h6.text-muted Change Distance Range
+              div.panel-wrapper.collapse-in
+                div.panel-body
+                  div.input-group.form-group
+                    span.input-group-addon 
+                      i.glyphicon.glyphicon-sunglasses
+                    input.form-control(type="number", v-model="distance_range")
+                  hr.light-grey-hr.mb-10
+                  div.mt-10.clearfix
+                    div.btn.btn-primary.btn-block.btn-md(v-on:click="setRange()") Set
+          div.col-md-8
+            div.panel.panel-default
+              div.panel-heading
+                h5.text-muted New Message
+              div.panel-wrapper.collapse-in
+                div.panel-body
+                  div.input-group.form-group
+                    span.input-group-addon 
+                      i.glyphicon.glyphicon-comment
+                    input.form-control(type="text", v-model="message.text")
+                  hr.light-grey-hr.mb-10
+                  div.mt-10.clearfix
+                    div.btn.btn-primary.btn-block.btn-md(v-on:click="sendMessage()") Send
+        div.row
+          div.col-md-12
+            div.panel.panel-default
+              div.panel-heading
+                h5.text-muted Messages
+              div.panel-wrapper.collapse-in
+                div.panel-body.padding
+                  div.row(v-if="!messageExists")
+                    span.text-muted No messages to show
+                  div.row(v-else)
+                    table.table
+                      thead
+                        tr
+                          th(scope="col") #
+                          th(scope="col") Sender
+                          th(scope="col") Receiver
+                          th(scope="col") Message
+                          th(scope="col") Time
+                      tbody
+                        tr(v-for="(item, index) in messages")
+                          th(scope="row") {{index + 1}}
+                          td {{item.sender_id}}
+                          td {{item.receiver_id}}
+                          td {{item.text}}
+                          td {{item.updatedAt | formatDate}}
+                  div.row
+                    div.btn.btn-primary.pull-right(v-on:click="getMessages()") Refresh
+      
+      div.col-md-6
+        div.panel.panel-default
+          div.panel-heading
+            h5.text-muted Users Nearby
+            div.col-md-8
+            div.input-group.form-group.col-md-4
+              span.input-group-addon 
+                i.glyphicon.glyphicon-bullhorn
+              select.form-control(v-model="nearbyType")
+                option(value="range") Inside range
+                option(value="building") Same building
+          div.panel-wrapper.collapse-in
+            div.panel-body.padding
+              div.row(v-if="!nearby")
+                span.text-muted No users nearby
+              div.row(v-else)
+                ul(v-for="user in usersNearby")
+                  li {{user}}
+              div.row
+                div.btn.btn-primary.pull-right(v-on:click="nearbyUsers()") Refresh
+      
+        
+        
 
 script(src='/scripts/layout.js')

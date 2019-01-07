@@ -182,7 +182,7 @@ exports.login = function (req, res) {
           })
           .then(function (userObj) {
               var user = userObj;
-              res.render('./layout', { title: 'GeoMessage', istID: user.istID });
+              res.render('./layout', { title: 'GeoMessage', istID: user.istID, distance_range: user.distance_range });
           })
           .catch(function (error) {
               res.json(error);

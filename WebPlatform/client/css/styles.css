@@ -3,7 +3,26 @@ body {
   background-color: #eee;
 }
 
-.listing-reg {
+.text-center {
+    text-align: center;
+}
+
+.bg-grey {
+  background-color: #eee;
+}
+
+.padding {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.start {
     display: flex;
     flex-wrap: wrap;
     max-width: 330px;
@@ -11,7 +30,17 @@ body {
     margin: 0 auto;
 }
 
-.listing-reg h1 {
+.start h1 {
+  text-align: center;
+  margin: 0 0 2rem;
+}
+.layout {
+    max-width: 700;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.layout h1 {
   text-align: center;
   margin: 0 0 2rem;
 }
