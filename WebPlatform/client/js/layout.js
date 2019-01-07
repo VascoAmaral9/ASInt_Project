@@ -13,6 +13,7 @@ Vue.filter('formatDate', function(value) {
 });
 
 var config = require('../../server/config/config')();
+var istID = $("#istID").val();
 
 sendLocation();
 cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () => {
@@ -21,8 +22,8 @@ cron.schedule('*/' + config.default.timeout_updateLocation + ' * * * * *', () =>
     app.getMessages();
 });
 
-function showPosition(position, istID) {
-    var url = config.host.path + '/users/' + app.istID + '/location';
+function showPosition(position) {
+    var url = config.host.path + '/users/' + istID + '/location';
     var data = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
