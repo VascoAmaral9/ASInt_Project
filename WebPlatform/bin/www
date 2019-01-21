@@ -51,7 +51,7 @@ cron.schedule('*'/'' + config.default.timeout_checkGlobal + ' * * * * *', () => 
     mixin.axiosRequest('get', url, params, data);
 });*/
 
-setTimeout(function () {
+/*setTimeout(function () {
     locationUpdate();
 }, 300);
 
@@ -64,7 +64,7 @@ function locationUpdate() {
     var params = {};
     var data = {};
     mixin.axiosRequest('get', url, params, data);
-};
+};*/
 
 
 // Normalize a port into a number, string, or false.
