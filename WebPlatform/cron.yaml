@@ -1,4 +1,4 @@
 cron:
 - description: "Active users"
   url: /users/location
-  schedule: every 1 mins
+  schedule: every 0.0167 mins
