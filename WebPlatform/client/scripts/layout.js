@@ -29376,11 +29376,11 @@ module.exports = function () {
             oauth_url: 'https://fenix.tecnico.ulisboa.pt/oauth'
         },
         default: {
-            building_range: 50,
-            user_range: 70,
-            timeout_updateLocation: 60, // User periodic location update -- 1 min
-            timeout_activeUser: 180, // User considered inactive -- 3 min
-            timeout_checkGlobal: 60 // Periodic update on active users -- 1 min
+            building_range: 90,
+            user_range: 150,
+            timeout_updateLocation: 1, // User periodic location update -- 1 sec
+            timeout_activeUser: 3, // User considered inactive -- 3 sec
+            timeout_checkGlobal: 1 // Periodic update on active users -- 1 sec
         }
     };
 
